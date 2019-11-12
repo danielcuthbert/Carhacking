@@ -39,17 +39,17 @@ Then to initialise your hardware/CAN adapter, issue
 
 Before you sniff traffic, you need to know what you are looking at. Most likely, it will be like so:
 
-!(Received Can Frames)[images/candump.jpeg]
+![Received Can Frames](images/candump.jpeg)
 
 Seems hectic right? Well actually not that hectic, if you understand how the frames Network
-!(CAN Frames)[images/CANframes.jpeg]
+![CAN Frames](images/CANframes.jpeg)
 
 
 ## GUI Tools
 
-Thankfully there are now a host of GUI-based tools out there compared to previous years, I mostly use two: (Cantact App by Eric)[https://github.com/linklayer/cantact-app] and the amazing (SavvyCAN)[https://www.savvycan.com/]
+Thankfully there are now a host of GUI-based tools out there compared to previous years, I mostly use two: [Cantact App by Eric](https://github.com/linklayer/cantact-app) and the amazing [SavvyCAN](https://www.savvycan.com/)
 
-!(Cantact-app)[images/CANtactapp.png]
+![Cantact-app](images/CANtactapp.png)
 
 
 
