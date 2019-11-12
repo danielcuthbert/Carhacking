@@ -1,4 +1,4 @@
-#My Random Car Hack & Exploration Mind Dump Secret Diary
+# My Random Car Hack & Exploration Mind Dump Secret Diary
 
 ## Tools and Hardware
 
@@ -9,7 +9,7 @@ Eric Evenchick is an animal and has created some epic hardware one can use on ca
 @nathancy created (Pi-CANtact)[https://github.com/nathancy/Pi-CANtact], a Python script to dump and send CAN data, then @finderman2 released (CANtools)[https://github.com/finderman2/CANtools]
 
 
-##Methodology
+## Methodology
 
 First you need to work out what you actually have in your car. What type of CAN (there are many). Google is your friend, or by looking at the OBD-II port under the dash
 
@@ -55,7 +55,7 @@ Thankfully there are now a host of GUI-based tools out there compared to previou
 
 
 
-### Blurbs I've not found a place for yet. 
+### Blurbs I've not found a place for yet.
 
 
 cansend can0 5A1#11.22.33.44.55.66.77.88
