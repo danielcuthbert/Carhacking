@@ -54,6 +54,20 @@ Thankfully there are now a host of GUI-based tools out there compared to previou
 
 
 
+## Model Specific Gotchas
+
+On American cars, they just act like chatty douchebags in a nightclub. Plug in the OBD-II cable and bosh, you will see lots of chatter. On European cars, especially those with Bosch parts, they need a wakeup packet before they start transmitting data.
+
+I'll try and document this as much as possible over the next few weeks. I'm busy writing a sketch for Arduino to achieve this
+
+` Serial1.write(0x20);
+  TS.sleep(OBD_INIT_TASK , 5);  
+  SerialUSB.print("OBD_INIT_PHASE = ");
+  SerialUSB.println(OBD_INIT_PHASE);
+  SerialUSB.println("Send communication start message 81 20 F3 81 15");
+  SerialUSB.println("Send message 20 with 9600 Baud");
+  SerialUSB.println("Wait for response");`
+
 
 ### Blurbs I've not found a place for yet.
 
