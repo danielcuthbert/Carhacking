@@ -4,41 +4,59 @@ Basic Tachometer for a classic Mercedes-Benz
 
 #include <Arduino.h>
 
-unsigned long start;
-unsigned long elapsed;
+volatile bool newPulse = false;
+volatile unsigned long lastPulseTime;
+volatile unsigned long lastPulseInterval;
 unsigned long RPM;
-int PPR = 3 ; //2800 cm³ straight-six M130 engine has 3 pulses per revolution
-int pin = 3; //attach interupt for atmega328p / atmega32u4
+int pin = 3;
 
 
 
-// pulsein() looks like it is the best to read the pulses created from the - terminal on the coil. For each PPR, it should go from 0V to 3V
-// thanks to the optocoupler smoothing out the voltage and hopefully creating a nice square wave in the process. 
+// pulsein() looks like it is the best to read the pulses created from the - terminal on the coil. 
+// the pulses go from 0v to 14v before it hits the circuit, with 0v being points closed and 14v open. 
+// thanks to the optocoupler smoothing out the voltage and hopefully creating a nice square wave in the process so 0v - 3v 
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(9600);
   pinMode(pin, INPUT);
-  start = micros();
+  start = millis();
 
 }
 
-void rpmCalc() {
-  
-  duration = pulseIn(Pin, HIGH)
-  RPM = 
+// the maths part. For each revolution of the crank, there are 3 pulses. Using miliseconds it should be something like
+// record the last seen pulse
+// record the next seen pulse
+// divide those by 1000 (we are using miliseconds)
+// duration = (last_measure_time - first_measure_time) / 1000.0
+// RPS = pulse_round / period
+// RPM = RPS * 60000
 
+
+
+void rpmtrigger()
+{
+ unsigned long now = millis();
+ unsigned long pulseInterval = now - lastPulseTime;
+ if (pulseInterval > 1000UL)  // minimum pulse interval
+ {
+    lastPulseTime = now;
+    lastPulseInterval = pulseInterval;
+    newPulse = true;
+ }
 }
 
 void loop()
 {
-
-  Serial.print(int(RPM));
-  Serial.print(" RPM is ");
-
-  Serial.println(elapsed);
-  delay(50);
-
-  
-  
+ if (newPulse)
+ {
+    rpm = 60000000UL/lastPulseInterval;
+    newPulse = false;
+ }
+ else
+ {
+   rpm = 0;
+ }
+ Serial.print(rpm);
+ delay(200);
 }
