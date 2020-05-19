@@ -1,14 +1,18 @@
 /*
-Basic Tachometer for a classic Mercedes-Benz
+Basic Tachometer for a classic Mercedes-Benz. A work in progress. 
 */
 
 #include <Arduino.h>
 
+int ledPin = 13;
+const byte interruptPin = 3;
+volatile byte state = RISING;
+int pulses = 0; // how many pulses seen
 volatile bool newPulse = false;
 volatile unsigned long lastPulseTime;
 volatile unsigned long lastPulseInterval;
 unsigned long RPM;
-int pin = 3;
+
 
 
 
@@ -19,10 +23,11 @@ int pin = 3;
 void setup()
 {
   Serial.begin(9600);
-  pinMode(pin, INPUT);
-  start = millis();
-
+  pinMode(ledPin, OUTPUT);
+  pinMode(interruptPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), increment, CHANGE);
 }
+
 
 // the maths part. For each revolution of the crank, there are 3 pulses. Using miliseconds it should be something like
 // record the last seen pulse
@@ -34,29 +39,41 @@ void setup()
 
 
 
-void rpmtrigger()
-{
- unsigned long now = millis();
- unsigned long pulseInterval = now - lastPulseTime;
- if (pulseInterval > 1000UL)  // minimum pulse interval
- {
-    lastPulseTime = now;
-    lastPulseInterval = pulseInterval;
-    newPulse = true;
- }
+// void rpmtrigger()
+// {
+//  unsigned long now = millis();
+//  unsigned long pulseInterval = now - lastPulseTime;
+//  if (pulseInterval > 1000UL)  // minimum pulse interval
+//  {
+//     lastPulseTime = now;
+//     lastPulseInterval = pulseInterval;
+//     newPulse = true;
+//  }
+// }
+
+// void loop()
+// {
+//  if (newPulse)
+//  {
+//     rpm = 60000000UL/lastPulseInterval;
+//     newPulse = false;
+//  }
+//  else
+//  {
+//    rpm = 0;
+//  }
+//  Serial.print(rpm);
+//  delay(200);
+// }
+
+
+void loop() {
+  digitalWrite(ledPin, state);
+  delay(3000);
+  Serial.println(pulses, DEC);
 }
 
-void loop()
-{
- if (newPulse)
- {
-    rpm = 60000000UL/lastPulseInterval;
-    newPulse = false;
- }
- else
- {
-   rpm = 0;
- }
- Serial.print(rpm);
- delay(200);
-}
+void increment() {
+        pulses++;
+        digitalWrite(ledPin, HIGH);
+    }
