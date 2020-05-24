@@ -8,15 +8,11 @@ A tachometer works by reading the pulse generated from the coil. The coil takes 
 
 My engine, the M130, is a straight-six 2.8 litre so has 3 pulses per revolution.
 
-Before we can read these pulses, we need to make the pulse safe to work with and also try and produce a proper square wave for the Arduino to read. If you attach a logic analyser, you should see something like this (*the voltage will be higher, these readings were taken after the voltage smoothing circuit was built as I didn't want to zap my Saleae*)
-
-![coil_pulse1](Images/coil_pulse1.png)
-
-![coil_pulse3](Images/coil_pulse3.png)
+Before we can read these pulses, we need to make the pulse safe to work with and also try and produce a proper square wave to read.  
 
 #### Voltage Smoother©
 
-Because the Pertronix has the capability to push out high voltage and this would fry a lot of equipment, so I had to build a circuit that takes the high voltage and does fancy stuff with it. After many weeks of working out what and why, I came up with
+Because the Pertronix has the capability to push out high voltage and this would fry a lot of equipment, there was a need to reduce this to around 5v. This looks something like this
 
 ![LTSpice](Images/LTSpice.png)
 
@@ -29,10 +25,10 @@ The Bill of Materials (BOM) is as follows:
 3. 370 Resistor
 4. Zener Diode 5.1v
 5. H111N 6-PIN DIP HIGH SPEED LOGIC OPTOCOUPLER
-6. 290 Resistor
+6. 290 Resistor (only needed to test the H111N is working)
 7. Arduino Nano
 
-The idea for the above is that we have potentially 14+v coming in from the coil. We need to drop that down to 5v before it hits the opto coupler on pin 1, and when we supply 3.3v from the Arduino, it will output a lovely square wave, which is better to read using C++
+The idea for the above is that we have potentially 14+v coming in from the coil. We need to drop that down to 5v before it hits the opto coupler on pin 1, and when we supply 3.3v from the Arduino, it will output a lovely square wave, which is better to read digitally. 
 
 Using LTSpice to confirm this (it's a great tool if you haven't used it before) confirms it works in theory
 
@@ -40,10 +36,20 @@ Using LTSpice to confirm this (it's a great tool if you haven't used it before) 
 
 Plugging in the Saleae, you can see this in action
 
-![analog_versus_digital](Images/analog_versus_digital.png)
+![coil_pulse1](Images/w108_pulses_idle.png)
 
-![analog_versus_digital2](Images/analog_versus_digital2.png)
+![coil_pulse3](Images/w108_individual_pulse.png)
 
-![analog_versus_digital3](Images/analog_versus_digital3.png)
+Channel 0 is connected to the output of the octocoupler in which the Arduino will read the pulses. The sketch for this test is included. 
 
-Channel 0 is connected to the output of the octocoupler in which the Arduino will read the pulses.
+####PCB Design
+
+Whilst an Arduino is being used to test this, I plan to use a Atmel 8-bit AVR, such as the Attiny85. 
+
+####LED Display
+
+The plan is to make use of two LED Bargraphs that fit into the slot where the automatic gear selector would usually go (mine is a manual)
+
+![coil_pulse1](Images/sparkfunledbargraph.jpg)
+
+![coil_pulse3](Images/w108_speedometer.jpg)
