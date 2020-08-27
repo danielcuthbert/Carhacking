@@ -3,6 +3,8 @@ Basic Tachometer for a classic Mercedes-Benz. A work in progress.
 */
 
 #include <Arduino.h>
+#include <util/atomic.h>
+
 
 int ledPin = 13;
 int count = 0;
