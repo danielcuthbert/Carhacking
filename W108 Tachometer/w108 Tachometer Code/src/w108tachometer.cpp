@@ -14,10 +14,8 @@ volatile byte state = RISING;
 void setup()
 {
   Serial.begin(9600);
-  pinMode(ledPin, OUTPUT);
   pinMode(interruptPin, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(interruptPin), count, CHANGE);
-  
+  attachInterrupt(digitalPinToInterrupt(interruptPin), count, CHANGE);  
 }
 
 
